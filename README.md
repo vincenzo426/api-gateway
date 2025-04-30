@@ -2,7 +2,7 @@
 
 Gateway API che offre un'interfaccia unificata per la gestione di contatti ed eventi.
 
-## 📋 Panoramica
+## Panoramica
 
 Questo microservizio implementa un gateway API che funge da punto di accesso unificato per due microservizi distinti:
 - **Servizio Contatti**: gestisce le informazioni relative ai contatti personali
@@ -10,7 +10,7 @@ Questo microservizio implementa un gateway API che funge da punto di accesso uni
 
 L'architettura utilizza i client REST di MicroProfile per comunicare con i microservizi sottostanti, esponendo un'API unificata per le applicazioni client.
 
-## 🔧 Architettura
+## Architettura
 
 Il sistema è strutturato secondo i seguenti componenti:
 
@@ -32,7 +32,7 @@ Il sistema è strutturato secondo i seguenti componenti:
                     └─────────────────┘
 ```
 
-## 📦 Componenti Principali
+## Componenti Principali
 
 ### Modelli Dati
 - **Contact**: rappresenta un contatto con attributi come nome, cognome, email e numero di telefono
@@ -45,7 +45,7 @@ Il sistema è strutturato secondo i seguenti componenti:
 ### Risorse API
 - **GatewayResource**: espone gli endpoint unificati per la gestione di contatti ed eventi
 
-## 🔄 Funzionalità API
+## Funzionalità API
 
 ### Gestione Contatti
 - Recupero di tutti i contatti
@@ -68,7 +68,7 @@ Il sistema è strutturato secondo i seguenti componenti:
 ### Funzionalità Composte
 - Recupero dei dettagli completi di un contatto, inclusi tutti gli eventi associati
 
-## 🔌 Endpoint API
+## Endpoint API
 
 ### Endpoint Contatti
 - `GET /api/contacts` - Recupera tutti i contatti
