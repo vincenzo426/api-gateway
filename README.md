@@ -1,56 +1,90 @@
-# api-gateway
+# Agenda API Gateway
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Gateway API che offre un'interfaccia unificata per la gestione di contatti ed eventi.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+## 📋 Panoramica
 
-## Running the application in dev mode
+Questo microservizio implementa un gateway API che funge da punto di accesso unificato per due microservizi distinti:
+- **Servizio Contatti**: gestisce le informazioni relative ai contatti personali
+- **Servizio Eventi**: gestisce gli appuntamenti e gli eventi associati ai contatti
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
+L'architettura utilizza i client REST di MicroProfile per comunicare con i microservizi sottostanti, esponendo un'API unificata per le applicazioni client.
+
+## 🔧 Architettura
+
+Il sistema è strutturato secondo i seguenti componenti:
+
+```
+┌─────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│             │     │                  │     │                 │
+│  Client     │────▶│  Gateway API    │────▶│  Servizio       │
+│  (Frontend) │     │                   │    │  Contatti       │
+│             │     │                  │     │                 │
+└─────────────┘     └──────────────────┘     └─────────────────┘
+                           │
+                           │
+                           ▼
+                    ┌─────────────────┐
+                    │                 │
+                    │  Servizio       │
+                    │  Eventi         │
+                    │                 │
+                    └─────────────────┘
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+## 📦 Componenti Principali
 
-## Packaging and running the application
+### Modelli Dati
+- **Contact**: rappresenta un contatto con attributi come nome, cognome, email e numero di telefono
+- **Event**: rappresenta un evento con attributi come titolo, descrizione, date di inizio/fine, posizione e ID del contatto associato
 
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+### Client API
+- **ContactClient**: interfaccia REST client per comunicare con il servizio contatti
+- **EventClient**: interfaccia REST client per comunicare con il servizio eventi
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+### Risorse API
+- **GatewayResource**: espone gli endpoint unificati per la gestione di contatti ed eventi
 
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
+## 🔄 Funzionalità API
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+### Gestione Contatti
+- Recupero di tutti i contatti
+- Recupero di un contatto specifico per ID
+- Ricerca contatti per termine
+- Creazione di un nuovo contatto
+- Aggiornamento di un contatto esistente
+- Eliminazione di un contatto
 
-## Creating a native executable
+### Gestione Eventi
+- Recupero di tutti gli eventi
+- Recupero di un evento specifico per ID
+- Recupero degli eventi associati a un contatto specifico
+- Recupero degli eventi imminenti
+- Ricerca eventi per termine
+- Creazione di un nuovo evento
+- Aggiornamento di un evento esistente
+- Eliminazione di un evento
 
-You can create a native executable using: 
-```shell script
-./mvnw package -Dnative
-```
+### Funzionalità Composte
+- Recupero dei dettagli completi di un contatto, inclusi tutti gli eventi associati
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+## 🔌 Endpoint API
 
-You can then execute your native executable with: `./target/api-gateway-1.0.0-SNAPSHOT-runner`
+### Endpoint Contatti
+- `GET /api/contacts` - Recupera tutti i contatti
+- `GET /api/contacts/{id}` - Recupera un contatto specifico per ID
+- `GET /api/contacts/search?term={term}` - Cerca contatti per termine
+- `POST /api/contacts` - Crea un nuovo contatto
+- `PUT /api/contacts/{id}` - Aggiorna un contatto esistente
+- `DELETE /api/contacts/{id}` - Elimina un contatto
+- `GET /api/contacts/{id}/details` - Recupera un contatto e tutti i suoi eventi associati
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+### Endpoint Eventi
+- `GET /api/events` - Recupera tutti gli eventi
+- `GET /api/events/{id}` - Recupera un evento specifico per ID
+- `GET /api/events/contact/{contactId}` - Recupera eventi associati a un contatto
+- `GET /api/events/upcoming` - Recupera eventi imminenti
+- `GET /api/events/search?term={term}` - Cerca eventi per termine
+- `POST /api/events` - Crea un nuovo evento
+- `PUT /api/events/{id}` - Aggiorna un evento esistente
+- `DELETE /api/events/{id}` - Elimina un evento
