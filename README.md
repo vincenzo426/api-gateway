@@ -65,9 +65,6 @@ Il sistema è strutturato secondo i seguenti componenti:
 - Aggiornamento di un evento esistente
 - Eliminazione di un evento
 
-### Funzionalità Composte
-- Recupero dei dettagli completi di un contatto, inclusi tutti gli eventi associati
-
 ## Endpoint API
 
 ### Endpoint Contatti
